@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Directory.Build.props" />
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Moq" Version="4.16.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rookie.Ecom.Business\Rookie.Ecom.Business.csproj" />
+    <ProjectReference Include="..\Rookie.Ecom.Contracts\Rookie.Ecom.Contracts.csproj" />
+    <ProjectReference Include="..\Rookie.Ecom.DataAccessor\Rookie.Ecom.DataAccessor.csproj" />
+    <ProjectReference Include="..\Rookie.Ecom.Admin\Rookie.Ecom.Admin.csproj" />
+  </ItemGroup>
+
+</Project>

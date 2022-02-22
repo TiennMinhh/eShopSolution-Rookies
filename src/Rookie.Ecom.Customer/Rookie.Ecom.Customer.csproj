@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <Import Project="..\Directory.Build.props" />
+  <PropertyGroup>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rookie.Ecom.Business\Rookie.Ecom.Business.csproj" />
+    <ProjectReference Include="..\Rookie.Ecom.Contracts\Rookie.Ecom.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
