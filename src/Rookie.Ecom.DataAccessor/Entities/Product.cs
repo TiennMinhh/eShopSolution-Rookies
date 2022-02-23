@@ -21,6 +21,8 @@ namespace Rookie.Ecom.DataAccessor.Entities
         public bool IsFeatured { get; set; }
 
         public int Quantity { get; set; }
+        public Guid? BrandId { get; set; }
+        public Brand Brand { get; set; }
 
         public Guid? CategoryId { get; set; }
 
