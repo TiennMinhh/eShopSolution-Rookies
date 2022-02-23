@@ -6,7 +6,6 @@ namespace Rookie.Ecom.Contracts.Dtos
     public class ProductDto : BaseDto
     {
         public string Name { get; set; }
-
         public string Desc { get; set; }
 
         public decimal Price { get; set; }
@@ -16,6 +15,8 @@ namespace Rookie.Ecom.Contracts.Dtos
         public bool IsFeatured { get; set; }
 
         public int Quantity { get; set; }
+        public Guid? BrandId { get; set; }
+        public BrandDto Brand { get; set; }
 
         public Guid? CategoryId { get; set; }
 
