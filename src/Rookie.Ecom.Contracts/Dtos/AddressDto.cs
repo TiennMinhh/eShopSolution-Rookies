@@ -11,7 +11,7 @@ namespace Rookie.Ecom.Contracts.Dtos
         public Guid CityId { get; set; }
         public CityDto City { get; set; }
         public string AddressLine { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public int Status { get; set; }
     }
 }

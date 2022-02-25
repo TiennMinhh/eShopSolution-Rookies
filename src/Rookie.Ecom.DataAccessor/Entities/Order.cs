@@ -9,7 +9,7 @@ namespace Rookie.Ecom.DataAccessor.Entities
         public Guid UserId { get; set; }
         public User User { get; set; }
         public string AddressLine { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public int Status { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
 

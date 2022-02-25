@@ -11,7 +11,7 @@ namespace Rookie.Ecom.DataAccessor.Entities
         public Guid CityId { get; set; }
         public City City { get; set; }
         public string AddressLine { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public int Status { get; set; }
     }
 }
