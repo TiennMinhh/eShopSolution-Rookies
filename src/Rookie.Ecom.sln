@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rookie.Ecom.Tests", "Rookie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rookie.Ecom.UnitTests", "Rookie.Ecom.UnitTests\Rookie.Ecom.UnitTests.csproj", "{47490BFC-BDBF-4B0C-9BB8-4FB84185B880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rookie.Ecom.Customer", "Rookie.Ecom.Customer\Rookie.Ecom.Customer.csproj", "{EF07CCE5-3D54-469A-AA86-BE800134DE1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rookie.Ecom.Customer", "Rookie.Ecom.Customer\Rookie.Ecom.Customer.csproj", "{EF07CCE5-3D54-469A-AA86-BE800134DE1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
