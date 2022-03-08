@@ -1,4 +1,23 @@
 ﻿@page
 @model Rookie.Ecom.Customer.Pages.CategoryModel
 @{
+    ViewData["Title"] = "Category page";
 }
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<table>
+    <tr>
+        <th>ID Category</th>
+        <th>Name Category</th>
+    </tr>
+    @foreach (var temp in Model.listcategory)
+    {
+        <tr>
+            <th class="">@temp.Id</th>
+            <th class="">@temp.Name</th>
+        </tr>
+    }
+</table>
