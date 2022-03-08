@@ -17,6 +17,7 @@
             public const string RequiredError = "{0} must be provided.";
             public const string OutOfRangeError = "{0} must be between {1} and {2}.";
             public const string NumberGreaterThanError = "{0} must be greater than {1}.";
+            public const string InvalidEmailError = "Email invalid.";
         }
     }
 }
