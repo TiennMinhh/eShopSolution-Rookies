@@ -16,20 +16,24 @@ namespace Rookie.Ecom.Customer.Pages
         private readonly ICategoryService _categoryService;
         private readonly IProductService _productService;
         private readonly ISlideService _slideService;
+        private readonly IBrandService _brandService;
 
         public IndexModel(ILogger<IndexModel> logger, IProductService productService,
-            ICategoryService categoryService, ISlideService slideService)
+            ICategoryService categoryService, ISlideService slideService, IBrandService brandService)
         {
             _logger = logger;
             _productService = productService;
             _categoryService = categoryService;
             _slideService = slideService;
+            _brandService = brandService;
 
         }
         public IEnumerable<CategoryDto> listCategory => _categoryService.GetAllAsync().Result;
 
         public IEnumerable<ProductDto> listProduct => _productService.GetAllAsync().Result;
         public IEnumerable<SlideDto> listSlide => _slideService.GetAllAsync().Result;
+        public IEnumerable<ProductDto> listProductFeatured => _productService.GetByFeatured().Result;
+        public IEnumerable<BrandDto> listBrand => _brandService.GetAllAsync().Result;
 
 
         public void OnGet()

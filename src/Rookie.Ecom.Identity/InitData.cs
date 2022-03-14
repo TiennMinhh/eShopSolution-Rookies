@@ -88,7 +88,7 @@ namespace Rookie.Ecom.Identity
                 },
                 new Client
                 {
-                    ClientName = "Rookie.Ecom.Web",
+                    ClientName = "Rookie.Ecom.Admin",
                     ClientId = "rookieecom",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     RedirectUris = new List<string>()
@@ -114,6 +114,26 @@ namespace Rookie.Ecom.Identity
                     //    "https://localhost:5011/"
                     //},
                     AllowAccessTokensViaBrowser = true
+                },
+                // interactive ASP.NET Core Web App
+                new Client
+                {
+                    ClientId = "web",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+            
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:5012/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }

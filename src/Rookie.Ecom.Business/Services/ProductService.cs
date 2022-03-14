@@ -87,5 +87,10 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<IEnumerable<ProductDto>> GetByFeatured()
+        {
+            var products = await _baseRepository.GetListByAsync(x => x.IsFeatured);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
     }
 }
