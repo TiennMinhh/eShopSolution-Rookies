@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CategoryDto>
+
+<ul class="nav nav-list">
+	@foreach (var category in Model)
+	{
+		@if (category.Children.Count() <= 0)
+		{
+					<li><a asp-page="Categories" asp-route-id="@category.Id">@category.Name</a></li>	
+		}
+		else
+		{
+			<li>
+				<a class="accordion-heading" data-toggle="collapse" data-target="#@category.Id">
+					<span class="nav-header-primary">@category.Name <span class="pull-right"><b class="caret"></b></span></span>
+				</a>
+				<ul class="nav nav-list collapse" id="@category.Id">
+					@await Html.PartialAsync("~/Pages/Shared/_CategoryPartial.cshtml", category.Children)
+				</ul>
+			</li>
+		}
+	}
+</ul>
+<style>
+
+	.nav-list li a {
+		text-decoration: none;
+		display: block;
+		padding: 10px;
+		cursor: pointer;
+		border-bottom: 1px solid #515151 !important;
+		color: #9d9d9d;
+		margin: 0px
+	}
+
+	.nav-list > li > a {
+		color: #C4C4C4;
+		font-size: 14px;
+		padding-left: 13px !important;
+		border-bottom: 1px solid #585858;
+	}
+
+		.nav-list > li > a:hover {
+			background-color: #444444;
+		}
+
+</style>

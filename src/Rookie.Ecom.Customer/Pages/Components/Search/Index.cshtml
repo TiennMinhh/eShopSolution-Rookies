@@ -1,0 +1,13 @@
+﻿@{
+	var catelist = ViewBag.categories as IEnumerable<CategoryDto>;
+}
+<form class="form-inline navbar-search" method="get" asp-page="search">
+	<input id="srchFld" class="srchTxt" name="keyword" type="text"  style="padding-left:30px"/>
+	<select class="srchTxt" name="categoryId">
+		<option value="-1">All</option>
+		@await Html.PartialAsync("~/Pages/Shared/_SearchCategoryPartial.cshtml", catelist)
+	</select>
+	<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+</form>
+
+
