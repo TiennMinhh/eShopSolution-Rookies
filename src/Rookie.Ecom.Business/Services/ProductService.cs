@@ -89,8 +89,26 @@ namespace Rookie.Ecom.Business.Services
 
         public async Task<IEnumerable<ProductDto>> GetByFeatured()
         {
-            var products = await _baseRepository.GetListByAsync(x => x.IsFeatured);
+            var products = await _baseRepository.GetListByAsync(x => x.IsFeatured && x.Pubished);
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
-    }
+
+        public async Task<IEnumerable<ProductDto>> GetByIsHome()
+        {
+            var products = await _baseRepository.GetListByAsync(x => x.IsHome == true && x.Pubished);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetByCategory(Guid categoryId)
+        {
+            var products = await _baseRepository.GetListByAsync(x => x.CategoryId == categoryId);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+
+		public async Task<IEnumerable<ProductDto>> SearchByNameAsync(string name)
+		{
+            var products = await _baseRepository.GetListByAsync(x => x.Name.Contains(name));
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+	}
 }
