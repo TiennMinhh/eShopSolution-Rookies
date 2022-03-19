@@ -12,6 +12,6 @@ namespace Rookie.Ecom.DataAccessor.Entities
 
         public int Status { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<UserRole> Users { get; set; }
     }
 }

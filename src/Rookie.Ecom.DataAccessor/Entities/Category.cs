@@ -20,9 +20,11 @@ namespace Rookie.Ecom.DataAccessor.Entities
 
         [StringLength(maximumLength: 250)]
         public Guid? ParentId { get; set; }
+        public Category ParentCategory { get; set; }
 
         public int Status { get; set; }
 
         public ICollection<Product> Products { get; set; }
+        public ICollection<Category> Children { get; set; }
     }
 }
