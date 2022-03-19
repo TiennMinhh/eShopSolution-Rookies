@@ -15,6 +15,8 @@ namespace Rookie.Ecom.Business.Interfaces
         Task<UserDto> GetByIdAsync(Guid id);
 
         Task<UserDto> GetByNameAsync(string name);
+        Task<UserDto> GetByUserNameAsync(string username);
+
 
         Task<UserDto> AddAsync(UserDto userDto);
 
