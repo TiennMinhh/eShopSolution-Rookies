@@ -43,8 +43,8 @@ namespace Rookie.Ecom.Business.Services
 
         public async Task<IEnumerable<ProductPictureDto>> GetAllAsync()
         {
-            var categories = await _baseRepository.GetAllAsync();
-            return _mapper.Map<List<ProductPictureDto>>(categories);
+            var pictures = await _baseRepository.GetAllAsync();
+            return _mapper.Map<List<ProductPictureDto>>(pictures);
         }
 
         public async Task<ProductPictureDto> GetByIdAsync(Guid id)
@@ -87,5 +87,10 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<IEnumerable<ProductPictureDto>> GetByProductAsync(Guid productId)
+        {
+            var pictures = await _baseRepository.GetListByAsync(x => x.ProductId == productId);
+            return _mapper.Map<List<ProductPictureDto>>(pictures);
+        }
     }
 }
