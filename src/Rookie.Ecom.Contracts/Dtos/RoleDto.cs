@@ -9,7 +9,7 @@ namespace Rookie.Ecom.Contracts.Dtos
         public string Name { get; set; }
 
         public int Status { get; set; }
+        public ICollection<UserRoleDto> UserRoles { get; set; }
 
-        public ICollection<UserDto> Users { get; set; }
     }
 }

@@ -20,7 +20,6 @@ namespace Rookie.Ecom.Business
                 .ForMember(d => d.Brand, t => t.Ignore());
 
             CreateMap<ProductPictureDto, ProductPicture>();
-            CreateMap<CityDto, City>();
             CreateMap<AddressDto, Address>();
             CreateMap<BrandDto, Brand>();
             CreateMap<CartDto, Cart>();
@@ -30,6 +29,7 @@ namespace Rookie.Ecom.Business
             CreateMap<RoleDto, Role>();
             CreateMap<SlideDto, Slide>();
             CreateMap<UserDto, User>();
+            CreateMap<UserRoleDto, UserRole>();
         }
 
         private void FromDataAccessorLayer()
@@ -37,7 +37,6 @@ namespace Rookie.Ecom.Business
             CreateMap<Category, CategoryDto>();
             CreateMap<Product, ProductDto>();
             CreateMap<ProductPicture, ProductPictureDto>();
-            CreateMap<City, CityDto>();
             CreateMap<Address, AddressDto>();
             CreateMap<Brand, BrandDto>();
             CreateMap<Cart, CartDto>();
@@ -47,6 +46,7 @@ namespace Rookie.Ecom.Business
             CreateMap<Role, RoleDto>();
             CreateMap<Slide, SlideDto>();
             CreateMap<User, UserDto>();
+            CreateMap<UserRole, UserRoleDto>();
         }
     }
 }

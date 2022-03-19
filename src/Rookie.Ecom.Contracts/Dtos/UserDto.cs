@@ -14,14 +14,13 @@ namespace Rookie.Ecom.Contracts.Dtos
 
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
-        
-        public Guid? RoleId { get; set; }
-        public RoleDto Role { get; set; }
 
         public int Status { get; set; }
         public ICollection<AddressDto> Addresses { get; set; }
         public ICollection<OrderDto> Orders { get; set; }
         public ICollection<ProductFeedBackDto> ProductFeedBacks { get; set; }
+        public ICollection<UserRoleDto> UserRoles { get; set; }
+
 
     }
 }
