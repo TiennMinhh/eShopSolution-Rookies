@@ -53,6 +53,10 @@ namespace Rookie.Ecom.Admin.Controllers
         public async Task<IEnumerable<CartDto>> GetAsync()
             => await _cartService.GetAllAsync();
 
+        [HttpGet("user/{userId}")]
+        public async Task<IEnumerable<CartDto>> GetByUserAsync(Guid userId)
+            => await _cartService.GetByUser(userId);
+
         [HttpGet("find")]
         public async Task<PagedResponseModel<CartDto>>
             FindAsync(string name, int page = 1, int limit = 10)
