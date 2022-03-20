@@ -17,5 +17,6 @@ namespace Rookie.Ecom.DataAccessor.Entities
 
         public Guid UserId { get; set; }
         public User User { get; set; }
+        public string Photo { get; set; }
     }
 }

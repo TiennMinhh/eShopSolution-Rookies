@@ -13,6 +13,7 @@ namespace Rookie.Ecom.Business.Interfaces
         Task<PagedResponseModel<AddressDto>> PagedQueryAsync(string name, int page, int limit);
 
         Task<AddressDto> GetByIdAsync(Guid id);
+        Task<AddressDto> GetByUserAsync(Guid id);
 
         Task<AddressDto> GetByNameAsync(string name);
 

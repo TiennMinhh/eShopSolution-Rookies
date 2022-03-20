@@ -87,5 +87,10 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<AddressDto> GetByUserAsync(Guid id)
+        {
+            var address = await _baseRepository.GetByAsync(x => x.UserId == id);
+            return _mapper.Map<AddressDto>(address);
+        }
     }
 }
