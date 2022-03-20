@@ -49,7 +49,9 @@ namespace Rookie.Ecom.Identity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource("roles", "Your role(s)", new List<string>() { "role" })
+                new IdentityResource("roles", "Your role(s)", new List<string>() { "role" }),
+                new IdentityResource("UserNames", "Your UserName(s)", new List<string>() { "UserName" }),
+                new IdentityResource("UserIds", "Your UserId(s)", new List<string>() { "UserId" })
             };
         }
 
@@ -118,22 +120,32 @@ namespace Rookie.Ecom.Identity
                 // interactive ASP.NET Core Web App
                 new Client
                 {
-                    ClientId = "web",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
-
-                    AllowedGrantTypes = GrantTypes.Code,
-            
-                    // where to redirect to after login
-                    RedirectUris = { "https://localhost:5012/signin-oidc" },
-
-                    // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
-
-                    AllowedScopes = new List<string>
+                    ClientName = "Rookie.Ecom.Customer",
+                    ClientId = "rookieecomcustomer",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:5012/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:5012/signout-callback-oidc"
+                    },
+                    AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "roles", "UserNames", "UserIds"
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("rookieecomcustomersecret".Sha256())
+                    },
+                    //AllowedCorsOrigins = new List<string>
+                    //{
+                    //    "https://localhost:5012/"
+                    //},
+                    AllowAccessTokensViaBrowser = true
                 }
             };
         }
