@@ -25,8 +25,7 @@ class Category extends Component {
     render() {
         return (
             <div>
-                <h1>Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
+                <h1>Category List</h1>
                 {renderCategoryTable(this.props)}
                 {renderPagination(this.props)}
             </div>
@@ -42,7 +41,9 @@ function renderCategoryTable(props) {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Parent</th>
                     <th>Desc</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +51,12 @@ function renderCategoryTable(props) {
                     <tr key={cat.id}>
                         <td>{cat.id}</td>
                         <td>{cat.name}</td>
+                        <td>{cat.parentId}</td>
                         <td>{cat.desc}</td>
+                        <td>
+                            <Link className='btn btn-primary' to={`#`}>Edit</Link>&nbsp;
+                            <Link className='btn btn-danger' to={`#`}>Delete</Link>
+                        </td>
                     </tr>
                 )}
             </tbody>

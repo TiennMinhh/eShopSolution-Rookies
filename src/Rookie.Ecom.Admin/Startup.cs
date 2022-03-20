@@ -41,6 +41,7 @@ namespace Rookie.Ecom.Admin
                 ops.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 ops.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                 ops.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                //ops.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
 
             services.AddHttpContextAccessor();
