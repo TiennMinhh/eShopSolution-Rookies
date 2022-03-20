@@ -87,5 +87,10 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<IEnumerable<ProductFeedBackDto>> GetByProductAsync(Guid productId)
+        {
+            var productFeedBacks = await _baseRepository.Entities.Include(x => x.User).Where(x => x.ProductId == productId).OrderByDescending(x => x.CreatedDate).ToListAsync();
+            return _mapper.Map<IEnumerable<ProductFeedBackDto>>(productFeedBacks);
+        }
     }
 }

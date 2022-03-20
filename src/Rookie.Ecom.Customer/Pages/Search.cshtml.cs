@@ -15,6 +15,7 @@ namespace Rookie.Ecom.Customer.Pages
         private readonly ILogger<SearchModel> _logger;
         private readonly ICategoryService _categoryService;
         private readonly IProductService _productService;
+        private readonly IProductPictureService _productPictureService;
 
         [BindProperty(Name = "categoryId", SupportsGet = true)]
         public string categoryId { get; set; }
@@ -24,14 +25,16 @@ namespace Rookie.Ecom.Customer.Pages
         public IEnumerable<ProductDto> products { get; set; }
 
         public SearchModel(ILogger<SearchModel> logger, IProductService productService,
-            ICategoryService categoryService)
+            ICategoryService categoryService, IProductPictureService productPictureService)
         {
             _logger = logger;
             _productService = productService;
             _categoryService = categoryService;
+            _productPictureService = productPictureService;
 
         }
         public IEnumerable<CategoryDto> listCategory => _categoryService.GetAllAsync().Result;
+        public IEnumerable<ProductPictureDto> pictures => _productPictureService.GetAllAsync().Result;
 
 
         public void OnGet()

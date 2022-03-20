@@ -14,17 +14,6 @@
 	Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with the latest fashion tendencies - that is why our goods are so popular and we have a great number of faithful customers all over the country.
 </p>
 <hr class="soft" />
-<form class="form-horizontal span6">
-	<div class="control-group">
-		<label class="control-label alignL">Sort By </label>
-		<select>
-			<option>Priduct name A - Z</option>
-			<option>Priduct name Z - A</option>
-			<option>Priduct Stoke</option>
-			<option>Price Lowest first</option>
-		</select>
-	</div>
-</form>
 
 <div id="myTab" class="pull-right">
 	<a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
@@ -35,7 +24,7 @@
 	<div class="tab-pane" id="listView">
 		@foreach (var product in Model.products)
 		{
-			ProductPictureDto picture = @product.ProductPictures.FirstOrDefault(pic => pic.IsDefault);
+			ProductPictureDto picture = @Model.pictures.FirstOrDefault(pic => pic.IsDefault && pic.ProductId == product.Id);
 			string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
 			<div class="row">
 				<div class="span2">
@@ -72,11 +61,11 @@
 		<ul class="thumbnails">
 			@foreach (var product in Model.products)
 			{
-				ProductPictureDto picture = @product.ProductPictures.FirstOrDefault(pic => pic.IsDefault);
+				ProductPictureDto picture = @Model.pictures.FirstOrDefault(pic => pic.IsDefault && pic.ProductId == product.Id);
 				string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
 				<li class="span3">
 					<div class="thumbnail">
-						<a href="product_details.html"><img src="~/products/@pictureName" alt="" /></a>
+						<a href="product_details.html"><img src="~/products/@pictureName" alt="" style="width:156px; height:156px"/></a>
 						<div class="caption">
 							<h5>@product.Name</h5>
 							<p>
@@ -94,18 +83,4 @@
 		</ul>
 		<hr class="soft" />
 	</div>
-</div>
-
-<a href="compair.html" class="btn btn-large pull-right">Compair Product</a>
-<div class="pagination">
-	<ul>
-		<li><a href="#">&lsaquo;</a></li>
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#">4</a></li>
-		<li><a href="#">...</a></li>
-		<li><a href="#">&rsaquo;</a></li>
-	</ul>
-</div>
-<br class="clr" />														
+</div>													
