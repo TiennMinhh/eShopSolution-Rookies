@@ -88,5 +88,19 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+		public async Task<CartDto> IsExist(Guid productId, Guid userId)
+        {
+            var carts = await _baseRepository.Entities
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == productId);
+            return _mapper.Map<CartDto>(carts);
+        }
+
+        public async Task<IEnumerable<CartDto>> GetByUser(Guid userId)
+        {
+            var carts = await _baseRepository.Entities
+                .Include(x => x.Product)
+                .Where(x => x.UserId == userId).ToListAsync();
+            return _mapper.Map<IEnumerable<CartDto>>(carts);
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace Rookie.Ecom.Business
             services.AddTransient<IAddressService, AddressService>();
             services.AddTransient<IBrandService, BrandService>();
             services.AddTransient<ICartService, CartService>();
-            services.AddTransient<ICityService, CityService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOrderItemService, OrderItemService>();
             services.AddTransient<IProductFeedBackService, ProductFeedBackService>();
@@ -28,6 +27,7 @@ namespace Rookie.Ecom.Business
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ISlideService, SlideService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRoleService, UserRoleService>();
 
             services.AddRefitClient<IIdentityProviderService>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001"));

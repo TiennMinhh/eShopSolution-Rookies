@@ -21,5 +21,11 @@ namespace Rookie.Ecom.Business.Interfaces
         Task DeleteAsync(Guid id);
 
         Task UpdateAsync(ProductDto productDto);
+
+        Task<IEnumerable<ProductDto>> GetByFeatured();
+        Task<IEnumerable<ProductDto>> GetByIsHome();
+        Task<IEnumerable<ProductDto>> GetByCategory(Guid categoryId);
+        Task<IEnumerable<ProductDto>> SearchByNameAsync(string name);
+
     }
 }

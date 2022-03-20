@@ -1,10 +1,46 @@
 ﻿@page
 @model IndexModel
+@using Rookie.Ecom.Contracts.Dtos
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h4>Featured Products </h4>
+<ul class="thumbnails">
+    @foreach(var product in Model.featuredProducts)
+    {
+        ProductPictureDto picture = @Model.pictures.FirstOrDefault(pic => pic.ProductId == product.Id && pic.IsDefault);
+		string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
+        <li class="span3">
+        <div class="thumbnail">
+            <a asp-page="ProductDetail"  asp-route-id="@product.Id"><img src="~/products/@pictureName" alt="" style="width:156px; height:156px"/></a>
+            <div class="caption">
+                <h5>@product.Name</h5>
+                <h4 style="text-align:center">
+                    <a class="btn" asp-page="ProductDetail"  asp-route-id="@product.Id"> <i class="icon-zoom-in"></i></a> 
+                    <a class="btn" asp-page="Cart" asp-page-handler="buynow"  asp-route-id="@product.Id">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$@product.Price</a></h4>
+            </div>
+        </div>
+    </li>
+    }
+    
+</ul>
+<h4>Latest Products </h4>
+<ul class="thumbnails">
+    @foreach(var product in Model.latestProducts)
+    {
+        ProductPictureDto picture = @Model.pictures.FirstOrDefault(pic => pic.ProductId == product.Id && pic.IsDefault);
+        string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
+        <li class="span3">
+        <div class="thumbnail">
+            <a asp-page="ProductDetail"  asp-route-id="@product.Id"><img src="~/products/@pictureName" alt="" style="width:156px; height:156px"/></a>
+            <div class="caption">
+                <h5>@product.Name</h5>
+                <h4 style="text-align:center"><a class="btn" asp-page="ProductDetail"  asp-route-id="@product.Id"> <i class="icon-zoom-in"></i></a> <a class="btn" asp-page="Cart" asp-page-handler="buynow"  asp-route-id="@product.Id">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$@product.Price</a></h4>
+            </div>
+        </div>
+    </li>
+    }
+    
+</ul>
+                                                                                                                                        

@@ -87,5 +87,10 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<UserDto> GetByUserNameAsync(string username)
+        {
+            var user = await _baseRepository.GetByAsync(x => x.UserName.Equals(username));
+            return _mapper.Map<UserDto>(user);
+        }
     }
 }

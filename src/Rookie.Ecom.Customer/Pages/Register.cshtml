@@ -1,0 +1,71 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.RegisterModel
+@{
+	ViewData["Title"] = "Register Page";
+}
+<ul class="breadcrumb">
+	<li><a asp-page="index">Home</a> <span class="divider">/</span></li>
+	<li class="active">Register</li>
+</ul>
+<h3> Register</h3>
+<hr class="soft" />
+
+<div class="row">
+	<div class="span12">
+		<div class="well">
+			<h5>CREATE YOUR ACCOUNT</h5><br />
+			<form method="post" asp-page="register">
+				<div class="control-group">
+					<label class="control-label" for="name">Full Name</label>
+					<div class="controls">
+						<input class="span3" type="text" id="name" 
+						asp-for="@Model.user.Name" placeholder="Full name">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input class="span3" type="email" id="email"
+						 asp-for="@Model.user.Email" placeholder="email@gmail.com">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="birthday">Birthday</label>
+					<div class="controls">
+						<input class="span3" type="date" id="birthday" 
+						asp-for="@Model.user.Birthday" placeholder="Birthday">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="address">Address</label>
+					<div class="controls">
+						<input class="span3" type="text" id="address" name="address" placeholder="Address">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="phone">Phone</label>
+					<div class="controls">
+						<input class="span3" type="text" id="phone" name="phone" placeholder="Your phone">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="username">Username</label>
+					<div class="controls">
+						<input class="span3" type="text" id="username" 
+						asp-for="@Model.user.UserName" placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input class="span3" type="password" id="password" 
+						asp-for="@Model.user.Password" placeholder="Password">
+					</div>
+				</div>				
+				<div class="controls">
+					<button type="submit" class="btn block">Create Your Account</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,6 @@
+﻿@{
+	var catelist = ViewBag.categories as IEnumerable<CategoryDto>;
+	@await Html.PartialAsync("~/Pages/Shared/_CategoryPartial.cshtml", catelist)
+}
+
+

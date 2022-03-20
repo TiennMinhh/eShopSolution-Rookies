@@ -21,5 +21,7 @@ namespace Rookie.Ecom.Business.Interfaces
         Task DeleteAsync(Guid id);
 
         Task UpdateAsync(ProductFeedBackDto productFeedBackDto);
+        Task<IEnumerable<ProductFeedBackDto>> GetByProductAsync(Guid productId);
+
     }
 }

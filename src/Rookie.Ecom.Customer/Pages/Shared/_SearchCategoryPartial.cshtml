@@ -1,0 +1,15 @@
+﻿@model IEnumerable<CategoryDto>
+
+@foreach (var category in Model)
+{
+	@if (category.Children.Count() <= 0)
+	{
+		<option value="@category.Id">@category.Name</option>
+	}
+	else
+	{
+		<optgroup label="@category.Name">
+			@await Html.PartialAsync("~/Pages/Shared/_SearchCategoryPartial.cshtml", category.Children)
+		</optgroup>
+	}
+}

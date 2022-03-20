@@ -16,7 +16,7 @@ namespace Rookie.Ecom.DataAccessor.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Address", b =>
@@ -27,9 +27,6 @@ namespace Rookie.Ecom.DataAccessor.Migrations
 
                     b.Property<string>("AddressLine")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("CityId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -53,8 +50,6 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("UserId");
 
@@ -107,10 +102,13 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.Property<Guid?>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Pubished")
@@ -122,7 +120,7 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -175,38 +173,9 @@ namespace Rookie.Ecom.DataAccessor.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.City", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<bool>("Pubished")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Order", b =>
@@ -291,10 +260,10 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BrandId")
+                    b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Cost")
@@ -311,7 +280,13 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Detail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHome")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -450,6 +425,35 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ad4e4ee0-e123-4839-b27e-2a4b79ed826a"),
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Admin",
+                            Pubished = true,
+                            Status = 1,
+                            UpdatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("593887de-f117-44b5-a2f0-f2048d056bb9"),
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Customer",
+                            Pubished = true,
+                            Status = 1,
+                            UpdatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("1f9f4525-99ba-4280-bbd9-d81694b1ff47"),
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Employee",
+                            Pubished = true,
+                            Status = 1,
+                            UpdatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Slide", b =>
@@ -527,9 +531,6 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.Property<bool>("Pubished")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -543,26 +544,79 @@ namespace Rookie.Ecom.DataAccessor.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d0ac3342-b8b2-474b-bc39-404812481411"),
+                            Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@gmail.com",
+                            Name = "Admin",
+                            Password = "123456",
+                            Pubished = true,
+                            Status = 1,
+                            UpdatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserName = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Pubished")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d0ac3342-b8b2-474b-bc39-404812481411"),
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Pubished = true,
+                            RoleId = new Guid("ad4e4ee0-e123-4839-b27e-2a4b79ed826a"),
+                            Status = true,
+                            UpdatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = new Guid("d0ac3342-b8b2-474b-bc39-404812481411")
+                        });
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Address", b =>
                 {
-                    b.HasOne("Rookie.Ecom.DataAccessor.Entities.City", "City")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
 
                     b.Navigation("User");
                 });
@@ -571,15 +625,28 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                 {
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Category", b =>
+                {
+                    b.HasOne("Rookie.Ecom.DataAccessor.Entities.Category", "ParentCategory")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Order", b =>
@@ -616,11 +683,15 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                 {
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.Brand", "Brand")
                         .WithMany("Products")
-                        .HasForeignKey("BrandId");
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
 
@@ -655,13 +726,23 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.User", b =>
+            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.UserRole", b =>
                 {
                     b.HasOne("Rookie.Ecom.DataAccessor.Entities.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Rookie.Ecom.DataAccessor.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Brand", b =>
@@ -671,12 +752,9 @@ namespace Rookie.Ecom.DataAccessor.Migrations
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Category", b =>
                 {
-                    b.Navigation("Products");
-                });
+                    b.Navigation("Children");
 
-            modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.City", b =>
-                {
-                    b.Navigation("Addresses");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Rookie.Ecom.DataAccessor.Entities.Order", b =>
@@ -701,6 +779,8 @@ namespace Rookie.Ecom.DataAccessor.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("ProductFeedBacks");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

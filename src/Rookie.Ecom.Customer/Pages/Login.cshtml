@@ -1,0 +1,39 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.LoginModel
+@{
+	ViewData["Title"] = "Login page";
+}
+<ul class="breadcrumb">
+	<li><a asp-page="index">Home</a> <span class="divider">/</span></li>
+	<li class="active">Login</li>
+</ul>
+<h3> Login</h3>
+<hr class="soft" />
+
+<div class="row">	
+	<div class="span12">
+		<div class="well">
+			<h5>ALREADY REGISTERED ?</h5>
+			<span style="color:red">@Model.Msg</span>
+			<form method="post" asp-page="login">
+				<div class="control-group">
+					<label class="control-label" for="username">Username</label>
+					<div class="controls">
+						<input class="span3" type="text" id="username" name="username" placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="password" class="span3" id="password" name="password" placeholder="Password">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn">Sign in</button> <a asp-page="register">Sign up</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,219 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.ProductDetailModel
+@{
+	ViewData["Title"] = "Product Detail";
+}
+
+<ul class="breadcrumb">
+	<li><a asp-page="index">Home</a> <span class="divider">/</span></li>
+	<li class="active">Product Details</li>
+</ul>
+<div class="row">
+	<div id="gallery" class="span3">
+		<a href="~/products/@Model.pictureName" title="@Model.pictureName">
+			<img src="~/products/@Model.pictureName" style="width:100%" alt="@Model.product.Name" />
+		</a>
+		<div id="differentview" class="moreOptopm carousel slide">
+			<div class="carousel-inner">
+				<div class="item active">
+					@foreach (var picture in Model.product.ProductPictures)
+					{
+						<a href="~/products/@picture.PictureUrl">
+							<img style="width:29%" src="~/products/@picture.PictureUrl" alt="" />
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span6">
+		<h3>@Model.product.Name  </h3>
+		<p>@Model.product.Desc</p>
+		<hr class="soft" />
+		<form class="form-horizontal qtyFrm">
+			<div class="control-group">
+				<label class="control-label"><span>$@Model.product.Price</span></label>
+				<div class="controls">
+					<a asp-page="cart" asp-page-handler="buynow" asp-route-id="@Model.product.Id" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></a>
+				</div>
+			</div>
+		</form>
+		<hr class="soft clr" />
+		<p>
+			@*for review*@
+		</p>
+		<br class="clr" />
+		<p>
+			@if (Model.feedBacks.Count() == 0)
+			{
+			<p class="product-desc"> This product have no rating yet</p>
+			}
+			else
+			{
+				for (int i = 0; i < (int)Model.ratingStar; i++)
+				{
+				<i class="fa fa-star" style="color:orange; font-size: 25px;"></i>
+				}
+			<p><a>( @Model.ratingStar )</a> average based on @Model.feedBacks.Count() reviews.</p>
+
+			}
+			@*<i class="fa fa-star"></i>
+				<i class="fa fa-star"></i>
+				<i class="fa fa-star"></i>
+				<i class="fa fa-star"></i>
+				<i class="fa fa-star"></i>
+				<p>2/5</p>*@
+		</p>
+		<hr class="soft" />
+	</div>
+
+	<div class="span9">
+		<ul id="productDetail" class="nav nav-tabs">
+			<li><a href="#home" data-toggle="tab">Reviews</a></li>
+			<li class="active"><a href="#profile" data-toggle="tab">Related Products</a></li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane fade in" id="home">
+				<div style="margin-left:100px">
+					@if (@Model.usernameSession == null)
+					{
+						<h4>Please <a asp-page="Login">Login</a> to review!</h4>
+					}
+					else
+					{
+						<form method="post" asp-page="ProductDetail" asp-page-handler="Rating" class="checkout-form">
+							<div class="col-lg-12">
+								<h4>Enter your review for product</h4>
+							</div>
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="col-lg-8 form-group">
+										<label>Rating</label>
+										<input type="number" name="rating" min=1 max=5 value=5 />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-8 form-group">
+									<label for="cmt">Leave a comment</label>
+									<textarea name="comment" cols="30" rows="5" placeholder="Leave your comment"></textarea>
+								</div>
+							</div>
+
+							<input id="ProductId" name="ProductId" value="@Model.product.Id" hidden />
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="payment-method">
+										<button class="btn btn-primary" type="submit">Submit</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					}
+					<hr class="soft" />
+
+					<div class="card">
+						@if (Model.feedBacks.Count() > 0)
+						{
+							foreach (var feedback in Model.feedBacks)
+							{
+								<div class="row d-flex">
+									<div class="d-flex flex-column">
+										<h3 class="mt-2 mb-0">@feedback.User.Name</h3>
+										<div>
+											<p class="text-left">
+												<span class="text-muted mr-3">@feedback.Rating</span> 
+												@for(int i = 0; i < feedback.Rating; i++)
+												{
+													<span class="fa fa-star " style="color:orange"></span>
+												}
+										</div>
+									</div>
+									<div class="ml-auto">
+										<p class="text-muted pt-5 pt-sm-3">@feedback.CreatedDate.ToString("dd/MM/yyyy")</p>
+									</div>
+								</div>
+								<div class="row text-left">
+									<p class="content">@feedback.Comment</p>
+								</div>
+								<hr class="soft" />
+							}
+						}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade active in" id="profile">
+				<div id="myTab" class="pull-right">
+					<a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
+					<a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+				</div>
+				<br class="clr" />
+				<hr class="soft" />
+				<div class="tab-content">
+					<div class="tab-pane" id="listView">
+						@if (Model.relatedProducts != null)
+						{
+							foreach (var product in Model.relatedProducts)
+							{
+								ProductPictureDto picture = @product.ProductPictures.FirstOrDefault(pic => pic.IsDefault);
+								string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
+								<div class="row">
+									<div class="span2">
+										<img src="~/products/@pictureName" alt="@product.Name" />
+									</div>
+									<div class="span4">
+										<h3>New | Available</h3>
+										<hr class="soft" />
+										<h5>@product.Name </h5>
+										<p>
+											@product.Desc
+										</p>
+										<a class="btn btn-small pull-right" asp-page="ProductDetail" asp-route-id="@product.Id">View Details</a>
+										<br class="clr" />
+									</div>
+									<div class="span3 alignR">
+										<form class="form-horizontal qtyFrm">
+											<h3> $@product.Price</h3>
+											<div class="btn-group">
+												<a asp-page="cart" asp-page-handler="buynow" asp-route-id="@product.Id" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
+												<a asp-page="ProductDetail" asp-route-id="@product.Id" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+											</div>
+										</form>
+									</div>
+								</div>
+								<hr class="soft" />
+							}
+						}
+					</div>
+					<div class="tab-pane active" id="blockView">
+						<ul class="thumbnails">
+							@if (Model.relatedProducts != null)
+							{
+								foreach (var product in Model.relatedProducts)
+								{
+									ProductPictureDto picture = @product.ProductPictures.FirstOrDefault(pic => pic.IsDefault);
+									string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
+									<li class="span3">
+										<div class="thumbnail">
+											<a asp-page="ProductDetail" asp-route-id="@product.Id"><img src="~/products/@pictureName" alt="" style="width:156px; height:156px" /></a>
+											<div class="caption">
+												<h5>@product.Name</h5>
+												<p>
+													@product.Desc
+												</p>
+												<h4 style="text-align:center"><a class="btn" asp-page="ProductDetail" asp-route-id="@product.Id"> <i class="icon-zoom-in"></i></a> <a class="btn" asp-page="Cart" asp-page-handler="buynow" asp-route-id="@product.Id">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">&euro;@product.Price</a></h4>
+											</div>
+										</div>
+									</li>
+								}
+							}
+						</ul>
+						<hr class="soft" />
+					</div>
+				</div>
+				<br class="clr">
+			</div>
+		</div>
+	</div>
+
+</div>

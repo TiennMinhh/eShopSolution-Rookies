@@ -21,5 +21,8 @@ namespace Rookie.Ecom.Business.Interfaces
         Task DeleteAsync(Guid id);
 
         Task UpdateAsync(CartDto cartDto);
+        Task<IEnumerable<CartDto>> GetByUser(Guid userId);
+
+        Task<CartDto> IsExist(Guid productId, Guid userId);
     }
 }

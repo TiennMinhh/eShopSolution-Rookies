@@ -22,14 +22,11 @@ namespace Rookie.Ecom.DataAccessor.Entities
         public DateTime Birthday { get; set; }
         [Required]
         public string Email { get; set; }
-        
-        public Guid? RoleId { get; set; }
-        public Role Role { get; set; }
-
         public int Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<ProductFeedBack> ProductFeedBacks { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
 
     }
 }
