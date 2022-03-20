@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rookie.Ecom.Business.Interfaces;
 using Rookie.Ecom.Contracts;
 using Rookie.Ecom.Contracts.Dtos;
+using Rookie.Ecom.DataAccessor.Data;
 using Rookie.Ecom.DataAccessor.Entities;
 using Rookie.Ecom.DataAccessor.Interfaces;
 using System;
@@ -15,12 +16,14 @@ namespace Rookie.Ecom.Business.Services
     public class OrderItemService : IOrderItemService
     {
         private readonly IBaseRepository<OrderItem> _baseRepository;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public OrderItemService(IBaseRepository<OrderItem> baseRepository, IMapper mapper)
+        public OrderItemService(IBaseRepository<OrderItem> baseRepository, IMapper mapper, ApplicationDbContext dbContext)
         {
             _baseRepository = baseRepository;
             _mapper = mapper;
+            _dbContext = dbContext;
         }
 
         public async Task<OrderItemDto> AddAsync(OrderItemDto orderItemDto)
@@ -87,5 +90,21 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<IEnumerable<OrderItemDto>> GetByOrderUserAsync(Guid orderId)
+        {
+            var items = await _baseRepository.Entities
+                .Include(x => x.Product)
+                .Include(x => x.Product.ProductPictures)
+                .Where(x => x.OrderId == orderId).ToListAsync();
+            return _mapper.Map<List<OrderItemDto>>(items);
+        }
+
+        public OrderItemDto Add(OrderItemDto orderItemDto)
+        {
+            var orderItem = _mapper.Map<OrderItem>(orderItemDto);
+            var item = _dbContext.OrderItems.Add(orderItem).Entity;
+            _dbContext.SaveChanges();
+            return _mapper.Map<OrderItemDto>(item);
+        }
     }
 }

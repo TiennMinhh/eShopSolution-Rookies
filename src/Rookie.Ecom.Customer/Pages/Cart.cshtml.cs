@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Rookie.Ecom.Business.Interfaces;
 using Rookie.Ecom.Contracts.Dtos;
 using System;
@@ -15,100 +16,189 @@ namespace Rookie.Ecom.Customer.Pages
         private IProductService _productService;
         private ICartService _cartService;
         private IProductPictureService _productPictureService;
+        private IUserService _userService;
+        private IOrderService _orderService;
+        private IOrderItemService _orderItemService;
+        private IAddressService _addressService;
 
         public IEnumerable<CartDto> carts { get; set; }
         public IEnumerable<ProductPictureDto> pictures { get; set; }
         public decimal subTotal { get; set; }
-
-        public CartModel(IProductService productService, ICartService cartService, IProductPictureService productPictureService)
-		{
+        public CartModel(IProductService productService, ICartService cartService, IProductPictureService productPictureService, 
+            IUserService userService, IOrderService orderService, IOrderItemService orderItemService, IAddressService addressService)
+        {
             _productService = productService;
             _cartService = cartService;
             _productPictureService = productPictureService;
-		}
+            _userService = userService;
+            _orderService = orderService;
+            _orderItemService = orderItemService;
+            _addressService = addressService;
+        }
 
         public void OnGet()
         {
-            carts = _cartService.GetByUser(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa3")).Result.ToList();
+            string sessionCart = HttpContext.Session.GetString("cart");
             subTotal = 0;
-            if(carts != null)
-			{
+            if (sessionCart != null)
+            {
+                carts = JsonConvert.DeserializeObject<List<CartDto>>(sessionCart);
                 subTotal = carts.Sum(x => x.Price * x.Quantity);
             }
-            pictures = _productPictureService.GetAllAsync().Result;
         }
 
         public IActionResult OnPost(int[] quantity)
         {
-            carts = _cartService.GetByUser(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa3")).Result.ToList();
-            for (int i = 0; i< quantity.Length; i++)
+            List<CartDto> items = JsonConvert.DeserializeObject<List<CartDto>>
+                (HttpContext.Session.GetString("cart"));
+            for (int i = 0; i < quantity.Length; i++)
             {
-                carts.ToList()[i].Quantity = quantity[i];
-                _cartService.UpdateAsync(carts.ToList()[i]);
+                items[i].Quantity = quantity[i];
             }
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(items));
             return RedirectToPage("Cart");
         }
 
-            public IActionResult OnGetRemove(Guid id)
+        public IActionResult OnGetRemove(Guid id)
         {
-            var obj = _cartService.IsExist(id, new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa3")).Result;
-            if (obj != null)
-            {
-                _cartService.DeleteAsync(obj.Id);
-            }
+            List<CartDto> items = JsonConvert.DeserializeObject<List<CartDto>>
+                (HttpContext.Session.GetString("cart"));
+            int index = exists(id, items);
+            items.RemoveAt(index);
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(items));
             return RedirectToPage("Cart");
-
-
         }
 
         public IActionResult OnGetCheckout()
         {
-            String username = HttpContext.Session.GetString("username");
-            if(username == null)
+            string username = HttpContext.Session.GetString("username");
+            if (username == null)
             {
                 return RedirectToPage("Login");
             }
             else
             {
+                var account = _userService.GetByUserNameAsync(username).Result;
+                var address = _addressService.GetByUserAsync(account.Id).Result;
+
+                //add order
+                var order = new OrderDto
+                {
+                    CreatedDate = DateTime.Now,
+                    CreatorId = account.Id,
+                    Pubished = true,
+                    Status = 1,
+                    UserId = account.Id,
+
+                };
+                if(address != null)
+                {
+                    order.Phone = address.Phone;
+                    order.AddressLine = address.AddressLine;
+                }
+                order = _orderService.AddAsync(order).Result;
+
+                //add order items
+                List<CartDto> items = JsonConvert.DeserializeObject<List<CartDto>>
+                (HttpContext.Session.GetString("cart"));
+                if(items != null)
+                {
+                    foreach(var item in items)
+                    {                        
+                        _orderItemService.Add(new OrderItemDto
+                        {
+                            OrderId = order.Id,
+                            ProductId = item.ProductId,
+                            Price = item.Product.Price,
+                            Quantity = item.Quantity,
+                            CreatedDate = DateTime.Now,
+                            Pubished = true
+                        });
+                    }
+                }
+                HttpContext.Session.Remove("cart");
                 return RedirectToPage("Thanks");
 
             }
         }
 
 
-            public IActionResult OnGetBuyNow(Guid id)
+        public IActionResult OnGetBuyNow(Guid id)
         {
             ProductDto product = _productService.GetByIdAsync(id).Result;
+            ProductPictureDto photo = _productPictureService.GetByProductAsync(id).Result.FirstOrDefault(x => x.IsDefault);
+            string photoname = photo == null ? "no-image.png" : photo.PictureUrl;
             if (product != null)
             {
-				try
-				{                    
+                try
+                {
+                    string sessionCart = HttpContext.Session.GetString("cart");
                     var obj = _cartService.IsExist(product.Id, new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa3")).Result;
-                    CartDto cart = new CartDto();
-                    cart.ProductId = product.Id;                    
-                    cart.Price = product.Price;
-                    cart.UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa3");
-                    if (obj != null)
+                    if (sessionCart == null)
                     {
-                        cart.Id = obj.Id;
-                        var quantity = 1 + obj.Quantity;
-                        cart.Quantity = quantity;
-                        _cartService.UpdateAsync(cart);
+                        List<CartDto> items = new List<CartDto>();
+                        items.Add(new CartDto
+                        {
+                            Product = new ProductDto
+                            {
+                                Name = product.Name,
+                                Price = product.Price,
+                            },
+                            ProductId = product.Id,
+                            Price = product.Price,
+                            Quantity = 1,
+                            Photo = photoname
+
+                        });
+                        HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(items));
                     }
                     else
                     {
-                        cart.Quantity = 1;
-                        _cartService.AddAsync(cart);
-                    }
-                                        
+                        List<CartDto> items = JsonConvert.DeserializeObject<List<CartDto>>(sessionCart);
+                        int index = exists(id, items);
+                        if(index == -1)
+                        {
+                            items.Add(new CartDto
+                            {
+                                Product = new ProductDto
+                                {
+                                    Name = product.Name,
+                                    Price = product.Price,
+                                },
+                                ProductId = product.Id,
+                                Price = product.Price,
+                                Quantity = 1,
+                                Photo = photoname
+
+                            });
+                        }
+                        else
+                        {
+                            items[index].Quantity++;
+                        }
+                        HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(items));
+                    }                    
+
                 }
-                catch(Exception e)
-				{
+                catch (Exception e)
+                {
                     Console.WriteLine(e.Message);
-				}
+                }
 
             }
             return RedirectToPage("Cart");
+        }
+
+        private int exists(Guid id, List<CartDto> items)
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                if(items[i].ProductId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

@@ -23,10 +23,8 @@
 		<tbody>
 			@foreach (var cart in Model.carts)
 			{
-				ProductPictureDto picture = @cart.Product.ProductPictures.FirstOrDefault(pic => pic.IsDefault);
-				string pictureName = picture == null ? "no-image.png" : picture.PictureUrl;
 				<tr>
-					<td> <img width="60" src="~/products/@pictureName" alt="" /></td>
+					<td> <img width="60" src="~/products/@cart.Photo" alt="" /></td>
 					<td>@cart.Product.Name</td>
 					<td>
 						<div class="input-append">

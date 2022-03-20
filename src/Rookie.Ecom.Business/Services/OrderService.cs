@@ -56,7 +56,8 @@ namespace Rookie.Ecom.Business.Services
             // input-n vs db-yes => delete
             // input-y vs db-y => update
             // unique, distinct, no-duplicate
-            var order = await _baseRepository.GetByIdAsync(id);
+            var order = await _baseRepository.Entities.Include(x => x.OrderItems).Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
             return _mapper.Map<OrderDto>(order);
         }
 
@@ -87,5 +88,11 @@ namespace Rookie.Ecom.Business.Services
             };
         }
 
+        public async Task<IEnumerable<OrderDto>> GetByUserAsync(Guid userId)
+        {
+            var order = await _baseRepository.Entities.Include(x =>x.OrderItems)
+                .Where(x => x.UserId == userId).OrderByDescending(x => x.CreatedDate).ToListAsync();
+            return _mapper.Map<IEnumerable<OrderDto>>(order);
+        }
     }
 }
