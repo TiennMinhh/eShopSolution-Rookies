@@ -1,0 +1,41 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.InvoiceManagementModel
+@{
+	ViewData["Title"] = "Invoice Management";
+}
+<ul class="breadcrumb">
+	<li><a asp-page="Index">Home</a> <span class="divider">/</span></li>
+	<li class="active"> invoice Management</li>
+</ul>
+<h3>  INVOICE MANAGEMENT [ <small>@Model.orders.Count() Item(s) </small>]<a href="products.html" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>
+<hr class="soft" />
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Created</th>
+			<th>Quantity</th>
+			<th>Total Price</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var order in Model.orders)
+		{
+			var total = @order.OrderItems.Sum(x => x.Price * x.Quantity);
+			<tr>
+				<td>@order.Id</td>
+				<td>@order.CreatedDate.ToString("dd-MM-yyyy")</td>
+				<td>@order.OrderItems.Count()</td>
+				<td>@total</td>
+				<td>@(order.Status == 1 ? "Pending" : "Done")</td>
+				<td>
+					<a asp-page="InvoiceDetail" asp-route-id="@order.Id">Details</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>

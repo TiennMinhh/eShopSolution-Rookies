@@ -1,0 +1,54 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.CartModel
+@{
+	ViewData["Title"] = "Shopping Cart";
+}
+<ul class="breadcrumb">
+	<li><a asp-page="index">Home</a> <span class="divider">/</span></li>
+	<li class="active"> SHOPPING CART</li>
+</ul>
+<h3>  SHOPPING CART [ <small>@Model.carts.Count() Item(s) </small>]<a asp-page="index" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>
+<hr class="soft" />
+<form method="post" asp-page="cart">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Photo</th>
+				<th>Name</th>
+				<th>Quantity/Update <button type="submit" class="btn"><i class="icon-save"></i>Update</button></th>
+				<th>Price</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var cart in Model.carts)
+			{
+				<tr>
+					<td> <img width="60" src="~/products/@cart.Photo" alt="" /></td>
+					<td>@cart.Product.Name</td>
+					<td>
+						<div class="input-append">
+							<input class="span1" style="max-width:34px" 
+							value="@cart.Quantity" name="quantity" placeholder="1" min="1" id="appendedInputButtons" size="16" type="number">
+							<a asp-page="cart" asp-page-handler="remove" asp-route-id="@cart.ProductId" class="btn btn-danger">
+								<i class="icon-remove icon-white"></i>
+							</a>
+						</div>
+					</td>
+					<td>$@cart.Price</td>
+					@{
+						var total = @cart.Price * cart.Quantity;
+					}
+					<td>$@total</td>
+				</tr>
+			}
+
+			<tr>
+				<td colspan="6" style="text-align:right"><strong>TOTAL =</strong></td>
+				<td class="label label-important" style="display:block"> <strong> $@Model.subTotal </strong></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<a asp-page="index" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+<a asp-page="cart" asp-page-handler="checkout" class="btn btn-large pull-right">Checkout <i class="icon-arrow-right"></i></a>

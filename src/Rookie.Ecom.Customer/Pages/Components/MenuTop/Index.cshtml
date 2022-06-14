@@ -1,0 +1,15 @@
+﻿<ul id="topMenu" class="nav pull-right">
+    @if(ViewBag.usernameSession == null){
+        <li class="">
+        <a asp-page="login" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">Login</span></a>       
+    </li>
+    }
+    else
+    {
+        <li class=""><a href="#">Welcome @ViewBag.usernameSession</a></li>
+        <li class=""><a asp-page="InvoiceManagement">Invoice</a></li>
+        <li class=""><a asp-page="profile">Change Profile</a></li>
+        <li class=""><a asp-page="login" asp-page-handler="logout">Logout</a></li>
+    }
+    
+</ul>

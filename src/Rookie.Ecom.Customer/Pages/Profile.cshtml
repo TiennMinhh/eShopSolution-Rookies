@@ -1,0 +1,60 @@
+﻿@page
+@model Rookie.Ecom.Customer.Pages.ProfileModel
+@{
+	ViewData["Title"] = "Login page";
+}
+<ul class="breadcrumb">
+	<li><a asp-page="index">Home</a> <span class="divider">/</span></li>
+	<li class="active">Profile</li>
+</ul>
+<h3> Profile</h3>
+<hr class="soft" />
+
+<div class="row">
+	<div class="span12">
+		<div class="well">
+			<h5>Account Information</h5><br />
+			<form method="post" asp-page="profile">
+				<div class="control-group">
+					<label class="control-label" for="name">Full Name</label>
+					<div class="controls">
+						<input class="span3" type="text" id="name" 
+						asp-for="@Model.user.Name" placeholder="Full name">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input class="span3" type="email" id="email"
+						 asp-for="@Model.user.Email" placeholder="email@gmail.com">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="birthday">Birthday</label>
+					<div class="controls">
+						<input class="span3" type="date" id="birthday" 
+						asp-for="@Model.user.Birthday" placeholder="Birthday">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="username">Username</label>
+					<div class="controls">
+						<input class="span3" type="text" id="username" 
+						asp-for="@Model.user.UserName" placeholder="Username" readonly ="readonly">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input class="span3" type="password" id="password" 
+						asp-for="@Model.user.Password" placeholder="Password">
+					</div>
+				</div>				
+				<div class="controls">
+					<button type="submit" class="btn block">Save Change</button>
+					<input class="span3" type="hidden" id="id" asp-for="@Model.user.Id">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

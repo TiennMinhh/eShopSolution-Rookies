@@ -44,6 +44,9 @@
                             <button class="btn btn-primary" name="button" value="login">Login</button>
                             <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
                         </form>
+                        <div>
+                            <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                        </div>
                     </div>
                 </div>
             </div>

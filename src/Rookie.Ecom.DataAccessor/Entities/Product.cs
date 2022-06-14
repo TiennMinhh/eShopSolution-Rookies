@@ -14,15 +14,20 @@ namespace Rookie.Ecom.DataAccessor.Entities
         [StringLength(maximumLength: 100)]
         public string Desc { get; set; }
 
+        public string Detail { get; set; }
+
         public decimal Price { get; set; }
 
         public decimal? Cost { get; set; }
 
         public bool IsFeatured { get; set; }
+        public bool IsHome { get; set; }
 
         public int Quantity { get; set; }
+        public Guid BrandId { get; set; }
+        public Brand Brand { get; set; }
 
-        public Guid? CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public Category Category { get; set; }
 

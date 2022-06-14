@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Rookie.Ecom.DataAccessor.Entities
+{
+    public class Address : BaseEntity
+    {
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+        public string AddressLine { get; set; }
+        public string Phone { get; set; }
+        public int Status { get; set; }
+    }
+}
